@@ -1,0 +1,5 @@
+node_modules/
+allure*/
+test-results/
+output.log
+_
