@@ -22,11 +22,11 @@ Run:
 ---
 For MAC:
 ``` 
-`./runtest.sh`
+./runtest.sh
 ```
 For WINDOWS: 
 ```
-`./runtest.bat`
+./runtest.bat
 ```
 
 Release Notes:
