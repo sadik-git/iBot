@@ -20,10 +20,12 @@ See the `.env` file
 
 Run:
 ---
-```
-For MAC: 
+For MAC:
+``` 
 `./runtest.sh`
+```
 For WINDOWS: 
+```
 `./runtest.bat`
 ```
 
