@@ -8,27 +8,27 @@ const config: PlaywrightTestConfig = {
     screenshot: 'only-on-failure',
     //trace: 'on',
   },
-
+  reporter: [['html', { open: 'never' }]],
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
-    {
-      name: 'MSEdge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' }, // or "msedge-beta" or 'msedge-dev'
-    },
+    // {
+    //   name: 'MSEdge',
+    //   use: { ...devices['Desktop Edge'], channel: 'msedge' }, // or "msedge-beta" or 'msedge-dev'
+    // },
   ],
 }
 export default config;
