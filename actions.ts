@@ -21,7 +21,8 @@ import {
 } from "./lib";
 import { IFmgr } from "./ifmgr";
 import { ACTION, DATA, LOCATOR, MAX_EMPTIES, TRACE } from "./consts";
-
+import { faker } from "@faker-js/faker";
+import * as fs from 'fs';
 export function getTestCases(
   sheet: Worksheet,
   page: Page,
@@ -88,7 +89,8 @@ export function getTestCases(
         continue;
       }
       if (boolIf) continue;
-   
+
+
 
       try {
         switch (a) {
@@ -179,6 +181,15 @@ export function getTestCases(
             
             break;
           case "var:set":  break;
+           
+          // press key action
+          case "keypress": 
+          break;
+          // Generate a random number
+
+          case "generaterandkeypress":
+            
+          break;
           default: logWarn("Unknown Action", a);
         }
       } catch (err) {
@@ -265,7 +276,18 @@ export async function runSheet(
         secs = +parts[1].trim();
         tos = { timeout: secs * 1000 };
       }
-
+      
+      function generateRandomNumberOfLength(length: number): string {
+        const min = Math.pow(10, length - 1); // Minimum value with the specified length
+        const max = Math.pow(10, length) - 1; // Maximum value with the specified length
+      
+        let randomNumber: string;
+        do {
+          randomNumber = faker.number.int({ min, max }).toString();
+        } while (randomNumber.includes('0'));
+        return randomNumber;
+      }
+      
       // Handle special structural action 'if'
       if (!ifmgr.ok) {
         // If not meeting ALL the previous conditions, skip the line
@@ -399,6 +421,28 @@ export async function runSheet(
             const path = await x.path();
             console.log("#.#", path)
             break;
+             
+          // press key action
+          case "keypress": await page.keyboard.press(d, tos);
+          console.log('Pressed key:', d);
+          break;
+          // Generate a random number
+
+          case "generaterandkeypress":
+            const numLength = parseInt(d, 10); // Convert `d` to a number representing the length
+            if (isNaN(numLength) || numLength <= 0) {
+                throw new Error(`Invalid number length: ${d}`);
+            }
+            const randNumber = generateRandomNumberOfLength(numLength);
+            console.log('Generated random number:', randNumber);
+
+          // Enter each digit using press
+          const digits = randNumber.toString().split('');
+          for (const digit of digits) {
+            await page.keyboard.press(digit);
+          }
+          break;
+
           default: logWarn("Unknown Action", a);
         }
       } catch (err) {
@@ -414,3 +458,5 @@ export async function runSheet(
     }
   }
 }
+
+
